@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/andrew/AndroidStudioProjects/ghostcommander1/app/src/main/res/values-v11/themes.xml -->
+    <eat-comment/>
+    <style name="AsDialog" parent="@android:style/Theme.Holo.Dialog">
+    </style>
+    <style name="FullScreen" parent="@android:style/Theme.Holo">
+        <item name="android:windowActionBar">false</item>
+    </style>
+</resources>
