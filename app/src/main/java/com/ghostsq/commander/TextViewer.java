@@ -38,6 +38,7 @@ public class TextViewer extends Activity {
     public  TextView    text_view;
     public  Uri uri;
     public  String encoding;
+    public final static PrettifyHighlighter highlighter = new PrettifyHighlighter();
     
     @Override
     public void onCreate( Bundle savedInstanceState ) {
@@ -250,9 +251,7 @@ public class TextViewer extends Activity {
         @Override
         protected void onPostExecute( CharSequence cs ) {
             try {
-                PrettifyHighlighter highlighter = new PrettifyHighlighter();
-                Log.d(TAG, "onPostExecute: "+cs);
-                String highlighted = highlighter.highlight(checkFileExtend(uri.toString()), cs.toString());
+                String highlighted = TextViewer.highlighter.highlight(checkFileExtend(uri.toString()), cs.toString());
                 TextViewer.this.text_view.setText( Html.fromHtml(highlighted) );
             } catch( Throwable e ) {
                 onProgressUpdate( getString( R.string.failed ) + e.getLocalizedMessage() );
