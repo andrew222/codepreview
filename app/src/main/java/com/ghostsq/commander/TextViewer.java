@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -105,17 +106,17 @@ public class TextViewer extends Activity {
     
     @Override
     protected void onSaveInstanceState( Bundle toSaveState ) {
-        Log.i( TAG, "Saving State: " + encoding );
+        Log.i(TAG, "Saving State: " + encoding);
         toSaveState.putString( SP_ENC, encoding == null ? "" : encoding );
-        super.onSaveInstanceState( toSaveState );
+        super.onSaveInstanceState(toSaveState);
     }
 
     @Override
     protected void onRestoreInstanceState( Bundle savedInstanceState ) {
         if( savedInstanceState != null )
             encoding = savedInstanceState.getString( SP_ENC );
-        Log.i( TAG, "Restored State " + encoding );
-        super.onRestoreInstanceState( savedInstanceState );
+        Log.i(TAG, "Restored State " + encoding);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -183,7 +184,21 @@ public class TextViewer extends Activity {
             */
         }
         return false;
-    }    
+    }
+    public String checkFileExtend(String uri) {
+        String result = "java";
+        if (uri.endsWith(".rb") || uri.endsWith(".rake")) {
+            result = "ruby";
+        }else if (uri.endsWith(".js") || uri.endsWith(".coffee")) {
+            result = "javascript";
+        }else if (uri.endsWith(".java")) {
+            result = "javascript";
+        }else if (uri.endsWith(".html") || uri.endsWith(".htm") || uri.endsWith(".xhtml")) {
+            result = "html";
+        }
+
+        return result;
+    }
 
      private class DataLoadTask extends AsyncTask<Void, String, CharSequence> {
         @Override
@@ -235,7 +250,10 @@ public class TextViewer extends Activity {
         @Override
         protected void onPostExecute( CharSequence cs ) {
             try {
-                TextViewer.this.text_view.setText( cs );
+                PrettifyHighlighter highlighter = new PrettifyHighlighter();
+                Log.d(TAG, "onPostExecute: "+cs);
+                String highlighted = highlighter.highlight(checkFileExtend(uri.toString()), cs.toString());
+                TextViewer.this.text_view.setText( Html.fromHtml(highlighted) );
             } catch( Throwable e ) {
                 onProgressUpdate( getString( R.string.failed ) + e.getLocalizedMessage() );
                 e.printStackTrace();

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import prettify.PrettifyParser;
 import prettify.theme.ThemeDefault;
@@ -32,7 +33,7 @@ public class PrettifyHighlighter {
         for (ParseResult result : results) {
             String type = result.getStyleKeys().get(0);
             String content = sourceCode.substring(result.getOffset(), result.getOffset() + result.getLength());
-            highlighted.append(String.format(FONT_PATTERN, getColor(type), content));
+            highlighted.append(String.format(FONT_PATTERN, getColor(type), textChatToHtmlChat(content)));
         }
 
 
@@ -53,5 +54,11 @@ public class PrettifyHighlighter {
         map.put("pun", "eeeeee");
         map.put("pln", "ffffff");
         return map;
+    }
+
+    private String textChatToHtmlChat(String str) {
+        String context = str.replace("\n", "<br>");
+        String result = context.replaceAll("\\s", "&nbsp;");
+        return result;
     }
 }
