@@ -46,7 +46,7 @@ public class TextViewer extends Activity {
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        progressDialog = new ProgressDialog(TextViewer.class);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(getResources().getString(R.string.loading_title));
         progressDialog.setMessage(getResources().getString(R.string.loading_msg));
         try {
@@ -210,7 +210,6 @@ public class TextViewer extends Activity {
      private class DataLoadTask extends AsyncTask<Void, String, CharSequence> {
          @Override
          protected void onPreExecute() {
-             super.onPreExecute();
              TextViewer.progressDialog.show();
          }
 
@@ -265,7 +264,7 @@ public class TextViewer extends Activity {
             try {
                 String highlighted = TextViewer.highlighter.highlight(checkFileExtend(uri.toString()), cs.toString());
                 TextViewer.this.text_view.setText( Html.fromHtml(highlighted) );
-                TextViewer.progressDialog.show();
+                TextViewer.progressDialog.dismiss();
             } catch( Throwable e ) {
                 onProgressUpdate( getString( R.string.failed ) + e.getLocalizedMessage() );
                 e.printStackTrace();
