@@ -379,6 +379,8 @@
   <string name="permissions">许可</string>
   <string name="flags">标记</string>
   <string name="not_exported">活动未输出</string>
+  <string name="loading_title">加载</string>
+  <string name="loading_msg">正在加载文件...</string>
   <string name="smb_missed">无法加载Samba适配器，确认Ghost Commander SMB插件已安装</string>
   <string name="sftp_missed">无法加载SFTP适配器，确认Ghost Commander SFTP插件已安装</string>
   <string name="donate">捐赠</string>

@@ -277,6 +277,8 @@
 <string name="editor_label">Text Editor</string>
 <string name="pictvw_label">Picture Viewer</string>
 <string name="textvw_label">Text Viewer</string>
+<string name="loading_title">Loading</string>
+<string name="loading_msg">Loading File...</string>
 <string name="perms_label">chmod / chown</string>
 <string name="advanced">Advanced</string>
 <string name="advanced_settings">Miscellaneous</string>

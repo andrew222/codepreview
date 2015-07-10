@@ -23,10 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.InputStream;
+import android.app.ProgressDialog;
 
 public class TextViewer extends Activity {
     public  final static String TAG = "TextViewerActivity";
@@ -39,10 +41,14 @@ public class TextViewer extends Activity {
     public  Uri uri;
     public  String encoding;
     public final static PrettifyHighlighter highlighter = new PrettifyHighlighter();
-    
+    public static ProgressDialog progressDialog;
+
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
+        progressDialog = new ProgressDialog(TextViewer.class);
+        progressDialog.setTitle(getResources().getString(R.string.loading_title));
+        progressDialog.setMessage(getResources().getString(R.string.loading_msg));
         try {
             boolean ct_enabled = requestWindowFeature( Window.FEATURE_CUSTOM_TITLE );
             setContentView( R.layout.textvw );
@@ -202,7 +208,13 @@ public class TextViewer extends Activity {
     }
 
      private class DataLoadTask extends AsyncTask<Void, String, CharSequence> {
-        @Override
+         @Override
+         protected void onPreExecute() {
+             super.onPreExecute();
+             TextViewer.progressDialog.show();
+         }
+
+         @Override
         protected CharSequence doInBackground( Void... v ) {
             Uri uri = TextViewer.this.uri;
             try {
@@ -253,6 +265,7 @@ public class TextViewer extends Activity {
             try {
                 String highlighted = TextViewer.highlighter.highlight(checkFileExtend(uri.toString()), cs.toString());
                 TextViewer.this.text_view.setText( Html.fromHtml(highlighted) );
+                TextViewer.progressDialog.show();
             } catch( Throwable e ) {
                 onProgressUpdate( getString( R.string.failed ) + e.getLocalizedMessage() );
                 e.printStackTrace();
