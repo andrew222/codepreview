@@ -16,6 +16,7 @@ import java.util.Map;
 import java.io.OutputStream;
 
 import com.ghostsq.commander.R;
+import com.ghostsq.commander.TextViewer;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -507,7 +508,8 @@ public final class Utils {
                         if( chars[i] == 0x0D )
                             chars[i] = ' ';
                     }
-                    sb.append( chars, 0, n );
+                    String parsedChars = TextViewer.highlighter.highlight("java", new String(chars));
+                    sb.append( parsedChars.toCharArray(), 0, parsedChars.length() );
                     if( available_supported ) {
                         for( int i = 0; i < 10; i++ ) {
                             if( is.available() > 0 )

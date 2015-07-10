@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -282,7 +283,7 @@ public class Editor extends Activity implements TextWatcher {
         @Override
         protected void onPostExecute( CharSequence cs ) {
             pd.cancel();
-            Editor.this.te.setText( cs );
+            Editor.this.te.setText(Html.fromHtml(cs.toString()) );
             Editor.this.dirty = false;
             Editor.this.loader = null; 
         }
